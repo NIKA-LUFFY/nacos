@@ -16,7 +16,7 @@
 cygwin=false
 darwin=false
 os400=false
-case "`uname`" in
+case "`uname`" in      # 内核版本
 CYGWIN*) cygwin=true;;
 Darwin*) darwin=true;;
 OS400*) os400=true;;
@@ -26,12 +26,12 @@ error_exit ()
     echo "ERROR: $1 !!"
     exit 1
 }
-[ ! -e "$JAVA_HOME/bin/java" ] && JAVA_HOME=$HOME/jdk/java
+[ ! -e "$JAVA_HOME/bin/java" ] && JAVA_HOME=$HOME/jdk/java       # ! -e 表示文件不存在， 文件不存在，给 java home 赋值
 [ ! -e "$JAVA_HOME/bin/java" ] && JAVA_HOME=/usr/java
 [ ! -e "$JAVA_HOME/bin/java" ] && JAVA_HOME=/opt/taobao/java
-[ ! -e "$JAVA_HOME/bin/java" ] && unset JAVA_HOME
+[ ! -e "$JAVA_HOME/bin/java" ] && unset JAVA_HOME          #一直不存在 取消设置 JAVA_HOME 变量
 
-if [ -z "$JAVA_HOME" ]; then
+if [ -z "$JAVA_HOME" ]; then      # -z 变量为空；变量为空，根据内核设置变量
   if $darwin; then
 
     if [ -x '/usr/libexec/java_home' ] ; then
@@ -56,8 +56,8 @@ export MODE="cluster"
 export FUNCTION_MODE="all"
 export MEMBER_LIST=""
 export EMBEDDED_STORAGE=""
-while getopts ":m:f:s:c:p:" opt
-do
+while getopts ":m:f:s:c:p:" opt         # getopts 脚本后的参数 比如 startuo.sh -m standalone
+do                                      # case 运行脚本是后面的参数，然后给变量赋值
     case $opt in
         m)
             MODE=$OPTARG;;
@@ -114,7 +114,7 @@ fi
 
 JAVA_OPT="${JAVA_OPT} -Dloader.path=${BASE_DIR}/plugins/health,${BASE_DIR}/plugins/cmdb,${BASE_DIR}/plugins/selector"
 JAVA_OPT="${JAVA_OPT} -Dnacos.home=${BASE_DIR}"
-JAVA_OPT="${JAVA_OPT} -jar ${BASE_DIR}/target/${SERVER}.jar"
+JAVA_OPT="${JAVA_OPT} -jar ${BASE_DIR}/target/${SERVER}.jar"     # 这个 server 就是 jar包名称
 JAVA_OPT="${JAVA_OPT} ${JAVA_OPT_EXT}"
 JAVA_OPT="${JAVA_OPT} --spring.config.additional-location=${CUSTOM_SEARCH_LOCATIONS}"
 JAVA_OPT="${JAVA_OPT} --logging.config=${BASE_DIR}/conf/nacos-logback.xml"
